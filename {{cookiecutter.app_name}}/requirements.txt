@@ -1,0 +1,8 @@
+loguru
+requests
+pytest
+{%- if cookiecutter.db_name != "False" %}
+sqlalchemy
+pymysql==1.0.2
+sqlalchemy==1.4.32
+{%- endif %}

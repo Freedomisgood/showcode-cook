@@ -1,0 +1,9 @@
+{
+    "project_name": "project demo",
+    "app_name": "{{ cookiecutter.project_name|lower|replace(' ', '_') }}",
+    "project_description": "project for Mrli",
+    "db_name": "False",
+    "table_name": "None",
+    "use_docker": "False",
+    "python_version": "3.8"
+}
