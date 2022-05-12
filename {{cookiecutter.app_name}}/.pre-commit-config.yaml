@@ -25,7 +25,7 @@ repos:
   hooks:
   - id: flake8
     # 覆盖运行文件的默认模式。
-    files: ^(app|tests)/
+    files: ^(base|tests)/
 
 - repo: local
   hooks:

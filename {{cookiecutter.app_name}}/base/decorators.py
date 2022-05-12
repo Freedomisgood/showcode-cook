@@ -2,15 +2,28 @@
 """
 list used decorators
 """
+from functools import wraps
+
 import requests
+
+from base.exceptions import RequestException
+from base.ext import LOG
+from base.settings import MAX_RETRY_COUNT
 
 
 def get_proxy():
-    PROXY_POOL_URL = 'http://localhost:5010'
-    proxy = requests.get(f"{PROXY_POOL_URL}/get?type=https", timeout=3).json().get("proxy")
-    res_proxy = {'http': "http://{}".format(proxy), 'https': "https://{}".format(proxy)}
+    PROXY_POOL_URL = "http://localhost:5010"
+    proxy = (
+        requests.get(f"{PROXY_POOL_URL}/get?type=https", timeout=3).json().get("proxy")
+    )
+    res_proxy = {"http": "http://{}".format(proxy), "https": "https://{}".format(proxy)}
     print("获得proxy: {}".format(res_proxy))
     return res_proxy
+
+
+def delete_proxy(proxy):
+    PROXY_POOL_URL = "http://localhost:5010"
+    requests.get(f"{PROXY_POOL_URL}/delete/?proxy={proxy}")
 
 
 def requestWithProxy(func):
@@ -28,12 +41,11 @@ def requestWithProxy(func):
         while tryTimes < MAX_RETRY_COUNT:
             try:
                 resp = func(*args, **kwargs)
-                print(resp.status_code)
                 if 100 < resp.status_code < 400:
                     break
             except RequestException as e:
                 tryTimes += 1
-                LOG.warn("{}请求失败: e~{}".format(rand_proxy, e))
+                LOG.warning("{}请求失败: e~{}".format(rand_proxy, e))
                 rand_proxy = get_proxy()
                 delete_proxy(rand_proxy)
         return resp

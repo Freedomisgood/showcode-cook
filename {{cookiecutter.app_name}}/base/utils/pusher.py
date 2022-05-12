@@ -9,7 +9,7 @@ from pathlib import Path
 
 import requests
 
-__author__ = 'Mrli'
+__author__ = "Mrli"
 
 CONFIG_INI_FILENAME = "push_config.ini"
 CONFIG_INI_PATH = Path(__file__).resolve().parent.parent.with_name("push_config.ini")
@@ -26,7 +26,7 @@ access_token =
 secret =
 
 [pushplus]
-pushplus_token = 
+pushplus_token =
 """
 
 
@@ -49,8 +49,10 @@ class PushplusPush(IPushUtil):
         d = {
             "token": self.pushplus_token,
             "template": "markdown",
-            "title": "{push_title}-{title}".format(push_title=self.push_title, title=title),
-            "content": content
+            "title": "{push_title}-{title}".format(
+                push_title=self.push_title, title=title
+            ),
+            "content": content,
         }
         res = requests.post("http://www.pushplus.plus/send", data=d)
         if not (200 <= res.json().get("code") < 300):
@@ -65,10 +67,14 @@ class ServerChanPush(IPushUtil):
 
     def push(self, content: str, title: str = "", *args, **kwargs) -> bool:
         data = {
-            'text': "{push_title}-{title}".format(push_title=self.push_title, title=title),
-            'desp': content
+            "text": "{push_title}-{title}".format(
+                push_title=self.push_title, title=title
+            ),
+            "desp": content,
         }
-        res = requests.post(url='https://sc.ftqq.com/{}.send'.format(self.sec_key), data=data)
+        res = requests.post(
+            url="https://sc.ftqq.com/{}.send".format(self.sec_key), data=data
+        )
         if not (res.json().get("errmsg") == "success"):
             print(res.json())
         return res.json().get("errmsg") == "success"
@@ -92,8 +98,12 @@ class DingDingPush(IPushUtil):
             secret_enc, string_to_sign_enc, digestmod=hashlib.sha256
         ).digest()
         sign = urllib.parse.quote_plus(base64.b64encode(hmac_code))
-        return self.URL + "?access_token={access_token}&timestamp={timestamp}&sign={sign}".format(
-            access_token=self.access_token, timestamp=timestamp, sign=sign)
+        return (
+            self.URL
+            + "?access_token={access_token}&timestamp={timestamp}&sign={sign}".format(
+                access_token=self.access_token, timestamp=timestamp, sign=sign
+            )
+        )
 
     def push(self, content: str, title: str = "", *args, **kwargs) -> bool:
         msg = self.gen_markdown_msg(title, content)
@@ -122,12 +132,9 @@ class DingDingPush(IPushUtil):
                 "text": title,
                 "btnOrientation": "0",
                 "btns": [
-                    {
-                        "title": "查看原文",
-                        "actionURL": kwargs.get("url")
-                    },
-                ]
-            }
+                    {"title": "查看原文", "actionURL": kwargs.get("url")},
+                ],
+            },
         }
 
     def gen_markdown_msg(self, title, text, at=None, at_all=False):
@@ -143,10 +150,7 @@ class DingDingPush(IPushUtil):
 
         return {
             "msgtype": "markdown",
-            "markdown": {
-                "title": title,
-                "text": generateText()
-            },
+            "markdown": {"title": title, "text": generateText()},
             "at": {"atMobiles": at, "isAtAll": at_all},
         }
 
@@ -165,16 +169,24 @@ class Pusher:
         :return:
         """
         from configparser import RawConfigParser
+
         cp = RawConfigParser()
         if not os.path.exists(CONFIG_INI_PATH):
             raise PusherException(
-                "请创建{filename}配置文件\npusher配置信息如下:\n{msg}".format(filename=CONFIG_INI_FILENAME, msg=REMIND_MSG))
+                "请创建{filename}配置文件\npusher配置信息如下:\n{msg}".format(
+                    filename=CONFIG_INI_FILENAME, msg=REMIND_MSG
+                )
+            )
         cp.read(CONFIG_INI_PATH, encoding="utf8")
         pusher_type = cp.get("pusher", "pusher_type").lower()
         push_title = cp.get("pusher", "push_title")
         # 是否使用了pusher
         if not pusher_type:
-            self.cout("初始化Pusher: 当前未配置Pusher, 如果需要推送功能, 则在{filename}".format(filename=CONFIG_INI_FILENAME))
+            self.cout(
+                "初始化Pusher: 当前未配置Pusher, 如果需要推送功能, 则在{filename}".format(
+                    filename=CONFIG_INI_FILENAME
+                )
+            )
             return None
 
         generator_info = dict(cp.items(pusher_type))
@@ -195,7 +207,7 @@ class Pusher:
     def _valid(config_dict: dict):
         """
         判断字典值是否为空
-        :param dict:
+        :param config_dict:
         :return:
         """
         for v in config_dict.values():

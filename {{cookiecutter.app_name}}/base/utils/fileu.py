@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from pathlib import Path
-from typing import Union, List
+from typing import Union
 
 
 def remove_folder(folder_path: Union[Path, str], missing_ok=True):

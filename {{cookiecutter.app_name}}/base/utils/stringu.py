@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 def changeStr2Dict(s: str) -> dict:
     s = s.strip("&")
     params = s.split("&")
