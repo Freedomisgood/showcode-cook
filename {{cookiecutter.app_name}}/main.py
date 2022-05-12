@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 # @File    : main.py
-__author__ = "Mrli"
 
-import os
-
-from helper.runner import Runner
+from base.helper.runner import Runner
 
 
 def _init_parser():

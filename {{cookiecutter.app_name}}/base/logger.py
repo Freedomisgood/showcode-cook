@@ -6,7 +6,7 @@ from pathlib import Path
 
 from loguru import logger
 
-from helper.settings import BASEDIR
+from base.settings import BASEDIR
 
 log_folder_path = Path(BASEDIR, 'logs')
 log_path = Path(log_folder_path, time.strftime("%F"))  # 日志根目录 ../logs/yyyy-mm-dd/

@@ -1,0 +1,26 @@
+# http://editorconfig.org/#file-format-details
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 4
+indent_style = space
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# 匹配py结尾的文件
+[*.py]
+# 缩进风格，可选"space"、"tab"
+indent_style = space
+# 缩进的空格数
+indent_size = 4
+
+[*.md]
+trim_trailing_whitespace = false
+
+[Makefile]
+indent_style = tab
+# tab的宽度
+tab_width = 4
+

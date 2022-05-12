@@ -1,0 +1,43 @@
+exclude: '^$'
+# 在碰到第一次失败后继续运行钩子
+fail_fast: false
+repos:
+# 存储库映射告诉预提交从哪里获取钩子的代码。
+  # git clone的存储库url
+- repo: https://github.com/timothycrosley/isort
+  # 要克隆的修订版或标签
+  rev: 5.10.1
+  # 挂钩映射列表。
+  hooks:
+  - id: isort
+
+# repo下有.pre-commit-hooks.yaml文件则标明其是一个pre-commit-hook
+- repo: https://github.com/ambv/black
+  rev: 20.8b1
+  hooks:
+  #要使用存储库中的哪个钩子。
+  - id: black
+    # 覆盖挂钩的语言版本
+    language_version: python{{ cookiecutter.python_version }}
+
+- repo: https://gitlab.com/pycqa/flake8
+  rev: 3.9.0
+  hooks:
+  - id: flake8
+    # 覆盖运行文件的默认模式。
+    files: ^(app|tests)/
+
+- repo: local
+  hooks:
+  - id: pytest
+    # 覆盖钩子的名称 - 在钩子执行期间显示。
+    name: pytest
+    stages: [commit]
+    language: system
+    {%- if cookiecutter.db_name != "False" %}
+    entry: pipenv run pytest
+    {%- else %}
+    entry: pytest
+    {%- endif %}
+    types: [python]
+    pass_filenames: false

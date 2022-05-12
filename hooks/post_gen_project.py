@@ -37,13 +37,23 @@ def clean_files():
     """Removes either requirements files and folder or the Pipfile."""
     db_name = "{{cookiecutter.db_name}}"
     use_docker = "{{cookiecutter.use_docker}}"
+    use_pipenv = "{{cookiecutter.use_pipenv}}"
+
     to_delete: List[Path] = []
 
+    # 删除False选项文件
     if db_name == "False":
-        to_delete = to_delete + [PROJECT_DIRECTORY.joinpath("helper").joinpath("dbs.py")]
+        to_delete = to_delete + [PROJECT_DIRECTORY.joinpath("base").joinpath("dbs.py"),
+                                 PROJECT_DIRECTORY.joinpath("base").joinpath("helper").joinpath("saver.py")
+                                 ]
 
     if use_docker == "False":
-        to_delete = to_delete + [PROJECT_DIRECTORY.joinpath("Dockerfile"), PROJECT_DIRECTORY.joinpath("docker-entrypoint.sh")]
+        to_delete = to_delete + [PROJECT_DIRECTORY.joinpath("Dockerfile"),
+                                 PROJECT_DIRECTORY.joinpath("docker-entrypoint.sh"),
+                                 PROJECT_DIRECTORY.joinpath(".dockerignore"),
+                                 ]
+    if use_pipenv == "False":
+        to_delete = to_delete + [PROJECT_DIRECTORY.joinpath("Pipfile")]
 
     try:
         for file_or_dir in to_delete:

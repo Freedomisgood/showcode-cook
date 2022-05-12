@@ -4,7 +4,7 @@
 """
 全局注册工具
 """
-from helper.logger import LOG
-from helper.pusher import Pusher
+from base.logger import LOG
+from base.pusher import Pusher
 
 p = Pusher()
