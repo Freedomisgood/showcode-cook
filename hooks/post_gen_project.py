@@ -43,7 +43,8 @@ def clean_files():
 
     # 删除False选项文件
     if db_name == "False":
-        to_delete = to_delete + [PROJECT_DIRECTORY.joinpath("base").joinpath("dbs.py"),
+        to_delete = to_delete + [PROJECT_DIRECTORY.joinpath("base").joinpath("models").joinpath("dbs.py"),
+                                 PROJECT_DIRECTORY.joinpath("base").joinpath("models").joinpath("create.sql"),
                                  PROJECT_DIRECTORY.joinpath("base").joinpath("helper").joinpath("saver.py")
                                  ]
 

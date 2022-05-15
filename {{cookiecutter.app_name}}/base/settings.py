@@ -4,6 +4,8 @@ from pathlib import Path
 
 # 根目录
 BASEDIR = Path(__file__).resolve().parent.parent
+COOKIES_CACHE_FILE = BASEDIR.with_name("users/").joinpath("cookies.json")
+
 
 COOKIES = {}
 
