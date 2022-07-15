@@ -8,7 +8,7 @@ import requests
 
 from base.exceptions import RequestException
 from base.ext import LOG
-from base.settings import MAX_RETRY_COUNT
+from base.settings import NET_MAX_RETRY_COUNT
 
 
 def get_proxy():
@@ -38,7 +38,7 @@ def requestWithProxy(func):
         kwargs["proxy"] = rand_proxy
         tryTimes = 0
         resp = None
-        while tryTimes < MAX_RETRY_COUNT:
+        while tryTimes < NET_MAX_RETRY_COUNT:
             try:
                 resp = func(*args, **kwargs)
                 if 100 < resp.status_code < 400:

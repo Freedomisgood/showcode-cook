@@ -3,8 +3,11 @@
 from pathlib import Path
 
 # 根目录
-BASEDIR = Path(__file__).resolve().parent.parent
-COOKIES_CACHE_FILE = BASEDIR.with_name("users/").joinpath("cookies.json")
+BASEDIR = Path(__file__).resolve().parent
+COOKIES_CACHE_FOLDER = BASEDIR.with_name("users")
+COOKIES_CACHE_FOLDER.mkdir(exist_ok=True)
+COOKIES_CACHE_FILE = COOKIES_CACHE_FOLDER.joinpath("cookies.json")
+
 
 
 COOKIES = {}
@@ -21,3 +24,8 @@ proxies = {
     # "https": https_proxy,
     # "http": http_proxy
 }
+
+# 网络请求最大重试次数
+NET_MAX_RETRY_COUNT = 5
+
+ASSETS_FOLDER = Path(__file__).resolve().with_name("assets")
