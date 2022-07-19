@@ -8,7 +8,7 @@ def _init_parser():
     """获得CLI参数"""
     from argparse import ArgumentParser
 
-    parser = ArgumentParser("jd_super_seckill")
+    parser = ArgumentParser("{{ cookiecutter.app_name }}")
     return parser.parse_args()
 
 

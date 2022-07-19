@@ -4,11 +4,14 @@ from pathlib import Path
 
 # 根目录
 BASEDIR = Path(__file__).resolve().parent
-COOKIES_CACHE_FOLDER = BASEDIR.with_name("users")
-COOKIES_CACHE_FOLDER.mkdir(exist_ok=True)
-COOKIES_CACHE_FILE = COOKIES_CACHE_FOLDER.joinpath("cookies.json")
 
-
+{ % - if cookiecutter.save_login != "False" %}
+# token信息存放路径
+USER_DIR_PATH = Path(__file__).resolve().with_name("users")
+if not os.path.exists(USER_DIR_PATH):
+    os.mkdir(USER_DIR_PATH)
+USER_DATA_FILENAME = "user_{username}.json"
+{ % - endif %}
 
 COOKIES = {}
 

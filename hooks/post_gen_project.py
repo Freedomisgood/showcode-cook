@@ -38,6 +38,7 @@ def clean_files():
     db_name = "{{cookiecutter.db_name}}"
     use_docker = "{{cookiecutter.use_docker}}"
     use_pipenv = "{{cookiecutter.use_pipenv}}"
+    save_login = "{{cookiecutter.save_login}}"
 
     to_delete: List[Path] = []
 
@@ -55,6 +56,10 @@ def clean_files():
                                  ]
     if use_pipenv == "False":
         to_delete = to_delete + [PROJECT_DIRECTORY.joinpath("Pipfile")]
+
+
+    if save_login == "False":
+        to_delete = to_delete + [PROJECT_DIRECTORY.joinpath("base").joinpath("helper").joinpath("login.py"),]
 
     try:
         for file_or_dir in to_delete:

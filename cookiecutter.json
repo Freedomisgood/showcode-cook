@@ -6,5 +6,6 @@
     "table_name": "None",
     "use_docker": "False",
     "use_pipenv": "False",
+    "save_login": "False",
     "python_version": "3.8"
 }
